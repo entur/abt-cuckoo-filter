@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.guava:guava:33.5.0-jre")
     testImplementation(kotlin("test"))
 }
 
