@@ -205,7 +205,7 @@ class CuckooFilter<T>(
 
     private fun fingerprint(item: T): Int {
         val h = hash(item)
-        val shift = 32 - storage.wordSize
+        val shift = 32 - storage.wordBits
         return h ushr shift
     }
 

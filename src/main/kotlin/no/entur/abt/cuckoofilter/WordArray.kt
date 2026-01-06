@@ -8,44 +8,44 @@ package no.entur.abt.cuckoofilter
  * order.
  *
  * @property byteArray the underlying byte array storage
- * @property wordSize the size of each word in bits (must be between 1 and 32)
+ * @property wordBits the size of each word in bits (must be between 1 and 32)
  */
 class WordArray(
     val byteArray: ByteArray,
-    val wordSize: Int,
+    val wordBits: Int,
 ) {
     /**
      * Creates a WordArray with the specified number of words.
      *
-     * The underlying byte array is sized to hold exactly [size] words of [wordSize] bits each,
+     * The underlying byte array is sized to hold exactly [size] words of [wordBits] bits each,
      * rounded up to the nearest byte boundary.
      *
      * @param size the number of words to allocate space for
-     * @param wordSize the size of each word in bits
+     * @param wordBits the size of each word in bits
      */
-    constructor(size: Int, wordSize: Int) : this(
-        ByteArray(Math.ceilDiv(size * wordSize, 8)),
-        wordSize,
+    constructor(size: Int, wordBits: Int) : this(
+        ByteArray(Math.ceilDiv(size * wordBits, 8)),
+        wordBits,
     )
 
     /**
      * The number of words that can be stored in this array.
      */
-    val size: Int get() = (byteArray.size * 8) / wordSize
+    val size: Int get() = (byteArray.size * 8) / wordBits
 
     /**
      * Retrieves the word at the specified index.
      *
      * Words are extracted from the underlying byte array using big-endian byte order.
-     * The returned value will be in the range [0, 2^wordSize - 1].
+     * The returned value will be in the range [0, 2^wordBits - 1].
      *
      * @param index the index of the word to retrieve
      * @return the word value at the specified index
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     fun get(index: Int): Int {
-        val bitStart = index * wordSize
-        val bitEnd = bitStart + wordSize
+        val bitStart = index * wordBits
+        val bitEnd = bitStart + wordBits
 
         val firstByte = bitStart / 8
         val lastByte = (bitEnd - 1) / 8
@@ -59,30 +59,30 @@ class WordArray(
         val shiftRight = totalBits - (bitEnd - firstByte * 8)
 
         acc = acc shr shiftRight
-        return acc and ((1 shl wordSize) - 1)
+        return acc and ((1 shl wordBits) - 1)
     }
 
     /**
      * Sets the word at the specified index to the given value.
      *
      * The value is stored in the underlying byte array using big-endian byte order.
-     * The value must fit within [wordSize] bits.
+     * The value must fit within [wordBits] bits.
      *
      * @param index the index of the word to set
-     * @param value the value to store (must be in range [0, 2^wordSize - 1])
-     * @throws IllegalArgumentException if the value doesn't fit in [wordSize] bits
+     * @param value the value to store (must be in range [0, 2^wordBits - 1])
+     * @throws IllegalArgumentException if the value doesn't fit in [wordBits] bits
      * @throws IndexOutOfBoundsException if the index is out of bounds
      */
     fun set(
         index: Int,
         value: Int,
     ) {
-        require(value ushr wordSize == 0) {
-            "Value $value does not fit in $wordSize bits"
+        require(value ushr wordBits == 0) {
+            "Value $value does not fit in $wordBits bits"
         }
 
-        val bitStart = index * wordSize
-        val bitEnd = bitStart + wordSize
+        val bitStart = index * wordBits
+        val bitEnd = bitStart + wordBits
 
         val firstByte = bitStart / 8
         val lastByte = (bitEnd - 1) / 8
@@ -94,7 +94,7 @@ class WordArray(
 
         val totalBits = (lastByte - firstByte + 1) * 8
         val shiftRight = totalBits - (bitEnd - firstByte * 8)
-        val mask = ((1 shl wordSize) - 1) shl shiftRight
+        val mask = ((1 shl wordBits) - 1) shl shiftRight
 
         acc = (acc and mask.inv()) or (value shl shiftRight)
 
