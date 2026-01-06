@@ -1,6 +1,6 @@
 # Cuckoo Filter
 
-A space-efficient probabilistic data structure for approximate set membership queries in Kotlin.
+A space-efficient probabilistic data structure for approximate set membership queries in Kotlin. The implementation is based on [Cuckoo Filter: Practically Better Than Bloom](https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf).
 
 ## Overview
 
