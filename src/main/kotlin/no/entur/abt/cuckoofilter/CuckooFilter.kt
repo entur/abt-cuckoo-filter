@@ -17,9 +17,8 @@ val DEFAULT_HASHER = Hashing.murmur3_32_fixed()
 /**
  * A space-efficient probabilistic data structure for approximate set membership queries.
  *
- * A cuckoo filter is similar to a Bloom filter but supports deletion and provides better
- * lookup performance. It uses a compact hash table with cuckoo hashing to store fingerprints
- * of elements.
+ * A cuckoo filter is similar to a Bloom filter but supports deletion. It uses a compact
+ * hash table with cuckoo hashing to store fingerprints of elements.
  *
  * Like other probabilistic data structures, cuckoo filters may return false positives but
  * never false negatives. That is, querying for an item that was added will always return
@@ -51,9 +50,6 @@ class CuckooFilter<T>(
 ) {
     /**
      * Creates a cuckoo filter with the specified minimum capacity.
-     *
-     * The actual capacity will be at least [minCapacity] but may be larger to ensure
-     * optimal performance characteristics (bucket count must be a power of two).
      *
      * @param funnel the funnel used to serialize elements for hashing
      * @param minCapacity the minimum number of elements the filter should be able to store

@@ -4,7 +4,7 @@ A space-efficient probabilistic data structure for approximate set membership qu
 
 ## Overview
 
-A cuckoo filter is similar to a Bloom filter but supports deletion and provides better lookup performance. It uses a compact hash table with cuckoo hashing to store fingerprints of elements.
+A cuckoo filter is similar to a Bloom filter but supports deletion. It uses a compact hash table with cuckoo hashing to store fingerprints of elements.
 
 Like other probabilistic data structures, cuckoo filters may return **false positives** but **never false negatives**. That is:
 
@@ -13,7 +13,7 @@ Like other probabilistic data structures, cuckoo filters may return **false posi
 
 ## Features
 
-- **Fast lookup and insertion** with O(1) expected time complexity
+- **Fast lookup and insertion** with amortized O(1) time complexity
 - **Deletion support** unlike traditional Bloom filters
 - **Space-efficient** storage using compact fingerprints
 - **Stable binary representation** suitable for serialization and network transport
