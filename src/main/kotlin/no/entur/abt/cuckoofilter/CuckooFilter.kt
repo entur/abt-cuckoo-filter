@@ -4,8 +4,6 @@ import com.google.common.hash.Funnel
 import com.google.common.hash.HashFunction
 import com.google.common.hash.Hashing
 import kotlin.math.ceil
-import kotlin.math.log2
-import kotlin.math.pow
 
 const val DEFAULT_FINGERPRINT_SIZE = 16
 const val DEFAULT_BUCKET_SIZE = 4
@@ -79,12 +77,6 @@ class CuckooFilter<T>(
     init {
         require(storage.size % bucketSize == 0) {
             "Storage size ${storage.size} is not divisible by bucket size $bucketSize"
-        }
-
-        val bucketCount = storage.size / bucketSize
-
-        require(isPowerOfTwo(bucketCount)) {
-            "Bucket count $bucketCount is not a power of two"
         }
     }
 
@@ -196,7 +188,7 @@ class CuckooFilter<T>(
 
     private fun index1(item: T): Int {
         val h = hash(item)
-        return h and (bucketCount - 1)
+        return Math.floorMod(h, bucketCount)
     }
 
     private fun fingerprint(item: T): Int {
@@ -210,7 +202,7 @@ class CuckooFilter<T>(
         fp: Int,
     ): Int {
         val h = hashFunction.hashInt(fp).asInt()
-        return (i1 xor h) and (bucketCount - 1)
+        return Math.floorMod(i1 xor h, bucketCount)
     }
 
     private fun bucketOffset(bucket: Int): Int = bucket * bucketSize
@@ -281,10 +273,4 @@ internal fun calculateBucketCount(
     minCapacity: Int,
     bucketSize: Int,
     loadFactor: Double,
-): Int {
-    val needed = minCapacity / (bucketSize * loadFactor)
-    val exp = ceil(log2(needed)).toInt()
-    return 2.0.pow(exp).toInt()
-}
-
-private fun isPowerOfTwo(n: Int): Boolean = n > 0 && (n and (n - 1)) == 0
+): Int = ceil(minCapacity / (bucketSize * loadFactor)).toInt()
