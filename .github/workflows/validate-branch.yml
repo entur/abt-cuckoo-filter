@@ -1,0 +1,12 @@
+name: Validate branch
+on:
+  pull_request:
+    types:
+      - synchronize
+      - opened
+
+jobs:
+  validate-gradle-build:
+    uses: entur/abt-gha-public/.github/workflows/gradle-open-source-verify.yml@v1
+    with:
+      java-version: 21
