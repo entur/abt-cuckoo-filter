@@ -1,9 +1,20 @@
 name: Publish release to Maven Central
 on:
   workflow_dispatch:
+    inputs:
+      version-increment:
+        description: "Version increment"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   publish-release:
     name: Publish release to Maven Central
     uses: entur/gha-maven-central/.github/workflows/gradle-publish.yml@main
     secrets: inherit
+    with:
+      next_version: ${{ github.event.inputs.version-increment }}
