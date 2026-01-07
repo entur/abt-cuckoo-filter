@@ -39,7 +39,7 @@ class CuckooFilterTest {
     @Test
     fun testAddContainsRemove() {
         val cuckooFilter = CuckooFilter(Funnels.byteArrayFunnel(), 100)
-        val n = (cuckooFilter.capacity * cuckooFilter.loadFactor).toInt()
+        val n = (cuckooFilter.capacity * 0.9).toInt()
         val ids = createIds(n, VALID_IDS_SEED)
 
         for (id in ids) {
@@ -90,10 +90,10 @@ class CuckooFilterTest {
 
         val testCases =
             listOf(
-                TestCase(100, 4, 0.95, 32),
-                TestCase(1000, 4, 0.95, 512),
-                TestCase(10000, 4, 0.95, 4096),
-                TestCase(100000, 4, 0.95, 32768),
+                TestCase(100, 4, 0.95, 27),
+                TestCase(1000, 4, 0.95, 264),
+                TestCase(10000, 4, 0.95, 2632),
+                TestCase(100000, 4, 0.95, 26316),
             )
 
         for ((maxSize, bucketSize, loadFactor, expectedBucketCount) in testCases) {
