@@ -2,10 +2,10 @@ name: Validate main
 on:
   push:
     branches:
-      - "main"
+      - main
 
 jobs:
-  validate-maven-build:
+  validate-gradle-build:
     uses: entur/abt-gha-public/.github/workflows/gradle-open-source-verify.yml@v1
     with:
       java-version: 21
