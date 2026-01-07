@@ -1,0 +1,12 @@
+name: Publish snapshot to Maven Central
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-snapshot:
+    name: Publish snapshot to Maven Central
+    uses: entur/gha-maven-central/.github/workflows/gradle-publish.yml@main
+    secrets: inherit
+    with:
+      snapshot: true
+      push_to_repo: false
