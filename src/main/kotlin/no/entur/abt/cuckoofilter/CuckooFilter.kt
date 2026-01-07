@@ -7,7 +7,7 @@ import kotlin.math.ceil
 
 const val DEFAULT_FINGERPRINT_SIZE = 16
 const val DEFAULT_BUCKET_SIZE = 4
-const val DEFAULT_LOAD_FACTOR = 0.95
+const val DEFAULT_LOAD_FACTOR = 0.95f
 const val DEFAULT_MAX_KICKS = 500
 
 val DEFAULT_HASHER = Hashing.murmur3_32_fixed()
@@ -41,7 +41,7 @@ val DEFAULT_HASHER = Hashing.murmur3_32_fixed()
 class CuckooFilter<T>(
     val funnel: Funnel<T>,
     val bucketSize: Int,
-    val loadFactor: Double,
+    val loadFactor: Float,
     val maxKicks: Int,
     val hashFunction: HashFunction,
     val storage: WordArray,
@@ -62,7 +62,7 @@ class CuckooFilter<T>(
         minCapacity: Int,
         fingerprintSize: Int = DEFAULT_FINGERPRINT_SIZE,
         bucketSize: Int = DEFAULT_BUCKET_SIZE,
-        loadFactor: Double = DEFAULT_LOAD_FACTOR,
+        loadFactor: Float = DEFAULT_LOAD_FACTOR,
         maxKicks: Int = DEFAULT_MAX_KICKS,
         hashFunction: HashFunction = DEFAULT_HASHER,
     ) : this(
@@ -263,7 +263,7 @@ private fun createStorage(
     minCapacity: Int,
     fingerprintSize: Int,
     bucketSize: Int,
-    loadFactor: Double,
+    loadFactor: Float,
 ): WordArray {
     val bucketCount = calculateBucketCount(minCapacity, bucketSize, loadFactor)
     return WordArray(bucketCount * bucketSize, fingerprintSize)
@@ -272,5 +272,5 @@ private fun createStorage(
 internal fun calculateBucketCount(
     minCapacity: Int,
     bucketSize: Int,
-    loadFactor: Double,
+    loadFactor: Float,
 ): Int = ceil(minCapacity / (bucketSize * loadFactor)).toInt()

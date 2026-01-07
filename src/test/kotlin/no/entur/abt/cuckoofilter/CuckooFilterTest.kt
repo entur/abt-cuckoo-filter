@@ -73,7 +73,7 @@ class CuckooFilterTest {
 
         // Produce enough random samples to get a decent estimated FPR
         val ids = createIds(1_000_000, INVALID_IDS_SEED)
-        val falsePositiveRate = ids.count { it in cuckooFilter } / ids.size.toDouble()
+        val falsePositiveRate = ids.count { it in cuckooFilter } / ids.size.toFloat()
 
         // This implementation with the default parameters should produce < 0.1% FPR
         Assertions.assertTrue(falsePositiveRate < 0.001)
@@ -84,16 +84,16 @@ class CuckooFilterTest {
         data class TestCase(
             val maxSize: Int,
             val bucketSize: Int,
-            val loadFactor: Double,
+            val loadFactor: Float,
             val expectedBucketCount: Int,
         )
 
         val testCases =
             listOf(
-                TestCase(100, 4, 0.95, 27),
-                TestCase(1000, 4, 0.95, 264),
-                TestCase(10000, 4, 0.95, 2632),
-                TestCase(100000, 4, 0.95, 26316),
+                TestCase(100, 4, 0.95f, 27),
+                TestCase(1000, 4, 0.95f, 264),
+                TestCase(10000, 4, 0.95f, 2632),
+                TestCase(100000, 4, 0.95f, 26316),
             )
 
         for ((maxSize, bucketSize, loadFactor, expectedBucketCount) in testCases) {
