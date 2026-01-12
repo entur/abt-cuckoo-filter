@@ -25,7 +25,7 @@ Add the dependency to your `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("no.entur.abt:abt-cuckoo-filter:1.0-SNAPSHOT")
+    implementation("no.entur.abt:abt-cuckoo-filter:<version>")
 }
 ```
 
