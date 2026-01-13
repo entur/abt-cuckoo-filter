@@ -28,7 +28,7 @@ dependencies {
     implementation("no.entur.abt:abt-cuckoo-filter:<version>")
 }
 ```
-You can find the newest version in [maven repository](https://central.sonatype.com/artifact/no.entur.abt/abt-cuckoo-filter)
+You can find the latest version in [maven repository](https://central.sonatype.com/artifact/no.entur.abt/abt-cuckoo-filter)
 
 ## Usage
 
