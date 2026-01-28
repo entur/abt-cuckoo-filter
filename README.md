@@ -25,9 +25,10 @@ Add the dependency to your `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("no.entur:abt-cuckoo-filter:1.0-SNAPSHOT")
+    implementation("no.entur.abt:abt-cuckoo-filter:<version>")
 }
 ```
+You can find the latest version in [maven repository](https://central.sonatype.com/artifact/no.entur.abt/abt-cuckoo-filter)
 
 ## Usage
 
