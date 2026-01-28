@@ -19,7 +19,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(8)
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
