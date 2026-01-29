@@ -19,12 +19,11 @@ class WordArray(
      *
      * The underlying byte array is sized to hold exactly [size] words of [wordBits] bits each,
      * rounded up to the nearest byte boundary.
-     *
      * @param size the number of words to allocate space for
      * @param wordBits the size of each word in bits
      */
     constructor(size: Int, wordBits: Int) : this(
-        ByteArray(Math.ceilDiv(size * wordBits, 8)),
+        ByteArray((size * wordBits) ceilDiv 8),
         wordBits,
     )
 
@@ -109,3 +108,8 @@ class WordArray(
      */
     fun toByteArray(): ByteArray = byteArray.clone()
 }
+
+/**
+ * Note: Math.ceilDiv() was introduced in Java 18 and is not available in Java 8.
+ */
+private infix fun Int.ceilDiv(divisor: Int): Int = (this + divisor - 1) / divisor

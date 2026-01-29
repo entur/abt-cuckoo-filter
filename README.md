@@ -61,7 +61,7 @@ filter.remove(item) // returns true if found and removed
 ## Requirements
 
 - Kotlin 2.2+
-- JVM 21+
+- JVM 8
 - Google Guava (for hash functions and funnels)
 
 ## License
