@@ -111,8 +111,5 @@ class WordArray(
 
 /**
  * Note: Math.ceilDiv() was introduced in Java 18 and is not available in Java 8.
- * Therefore, we use the formula (a + b - 1) / b to compute ceiling division:
- * (size * wordBits + 7) / 8 is equivalent to Math.ceilDiv(size * wordBits, 8).
- * This ensures we allocate enough bytes to store all bits without truncation.
  */
 private infix fun Int.ceilDiv(divisor: Int): Int = (this + divisor - 1) / divisor
