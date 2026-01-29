@@ -1,4 +1,7 @@
-# Cuckoo Filter
+# Cuckoo Filter 
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/entur/abt-cuckoo-filter/validate-main.yml)
+![Maven Central Version](https://img.shields.io/maven-central/v/no.entur.abt/abt-cuckoo-filter)
 
 A space-efficient probabilistic data structure for approximate set membership queries in Kotlin. The implementation is based on [Cuckoo Filter: Practically Better Than Bloom](https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf).
 
@@ -28,7 +31,8 @@ dependencies {
     implementation("no.entur.abt:abt-cuckoo-filter:<version>")
 }
 ```
-You can find the latest version in [maven repository](https://central.sonatype.com/artifact/no.entur.abt/abt-cuckoo-filter)
+
+You can find the latest version on [Maven Central](https://central.sonatype.com/artifact/no.entur.abt/abt-cuckoo-filter)
 
 ## Usage
 
