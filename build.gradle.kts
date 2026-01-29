@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "2.2.21"
     id("java-library")
     id("maven-publish")
     id("org.jreleaser") version "1.18.0"
