@@ -114,3 +114,5 @@ class WordArray(
      */
     fun toByteArray(): ByteArray = byteArray.clone()
 }
+
+private infix fun Int.ceilDiv(divisor: Int): Int = (this + divisor - 1) / divisor
