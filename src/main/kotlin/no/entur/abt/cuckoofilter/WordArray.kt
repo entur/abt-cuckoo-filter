@@ -29,7 +29,7 @@ class WordArray(
      * @param wordBits the size of each word in bits
      */
     constructor(size: Int, wordBits: Int) : this(
-        ByteArray((size * wordBits + 7) / 8),
+        ByteArray((size * wordBits) ceilDiv 8),
         wordBits,
     )
 
