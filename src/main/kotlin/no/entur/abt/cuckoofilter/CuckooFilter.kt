@@ -40,10 +40,10 @@ val DEFAULT_HASHER = Hashing.murmur3_32_fixed()
 @Suppress("UnstableApiUsage")
 class CuckooFilter<T>(
     val funnel: Funnel<T>,
-    val bucketSize: Int,
-    val loadFactor: Float,
-    val maxKicks: Int,
-    val hashFunction: HashFunction,
+    val bucketSize: Int = DEFAULT_BUCKET_SIZE,
+    val loadFactor: Float = DEFAULT_LOAD_FACTOR,
+    val maxKicks: Int = DEFAULT_MAX_KICKS,
+    val hashFunction: HashFunction = DEFAULT_HASHER,
     val storage: WordArray,
 ) {
     /**
