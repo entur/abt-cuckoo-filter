@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directories:
+      - "/"
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 5
+  - package-ecosystem: "github-actions"
+    directory: ".github/workflows"
+    cooldown:
+      default-days: 5
+    schedule:
+      interval: "daily"
+
