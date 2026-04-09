@@ -80,29 +80,29 @@ class CuckooFilterTest {
     }
 
     @Test
-    fun testCalculateBucketCount() {
+    fun testCalculateCapacity() {
         data class TestCase(
             val maxSize: Int,
             val bucketSize: Int,
             val loadFactor: Float,
-            val expectedBucketCount: Int,
+            val expectedCapacity: Int,
         )
 
         val testCases =
             listOf(
-                TestCase(100, 4, 0.95f, 27),
-                TestCase(1000, 4, 0.95f, 264),
-                TestCase(10000, 4, 0.95f, 2632),
-                TestCase(100000, 4, 0.95f, 26316),
+                TestCase(100, 4, 0.95f, 108),
+                TestCase(1000, 4, 0.95f, 1056),
+                TestCase(10000, 4, 0.95f, 10528),
+                TestCase(100000, 4, 0.95f, 105264),
             )
 
-        for ((maxSize, bucketSize, loadFactor, expectedBucketCount) in testCases) {
-            val bucketCount = calculateBucketCount(maxSize, bucketSize, loadFactor)
+        for ((minCapacity, bucketSize, loadFactor, expectedCapacity) in testCases) {
+            val capacity = calculateCapacity(minCapacity, bucketSize, loadFactor)
 
             Assertions.assertEquals(
-                expectedBucketCount,
-                bucketCount,
-                "Unexpected bucket count for maxSize=$maxSize, bucketSize=$bucketSize, loadFactor=$loadFactor",
+                expectedCapacity,
+                capacity,
+                "Unexpected capacity for minCapacity=$minCapacity, bucketSize=$bucketSize, loadFactor=$loadFactor",
             )
         }
     }

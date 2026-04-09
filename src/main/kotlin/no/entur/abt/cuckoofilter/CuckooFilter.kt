@@ -71,7 +71,10 @@ class CuckooFilter<T>(
         loadFactor,
         maxKicks,
         hashFunction,
-        createStorage(minCapacity, fingerprintSize, bucketSize, loadFactor),
+        WordArray(
+            calculateCapacity(minCapacity, bucketSize, loadFactor),
+            fingerprintSize,
+        ),
     )
 
     /**
@@ -287,18 +290,8 @@ class CuckooFilter<T>(
     }
 }
 
-private fun createStorage(
-    minCapacity: Int,
-    fingerprintSize: Int,
-    bucketSize: Int,
-    loadFactor: Float,
-): WordArray {
-    val bucketCount = calculateBucketCount(minCapacity, bucketSize, loadFactor)
-    return WordArray(bucketCount * bucketSize, fingerprintSize)
-}
-
-internal fun calculateBucketCount(
+fun calculateCapacity(
     minCapacity: Int,
     bucketSize: Int,
     loadFactor: Float,
-): Int = ceil(minCapacity / (bucketSize * loadFactor)).toInt()
+): Int = ceil(minCapacity / (bucketSize * loadFactor)).toInt() * bucketSize
