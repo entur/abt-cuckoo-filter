@@ -74,6 +74,34 @@ class CuckooFilter<T>(
         createStorage(minCapacity, fingerprintSize, bucketSize, loadFactor),
     )
 
+    /**
+     * Creates a cuckoo filter with the specified storage.
+     *
+     * @param funnel the funnel used to serialize elements for hashing
+     * @param fingerprintSize the size of fingerprints in bits (default: 16)
+     * @param bucketSize the number of fingerprint slots per bucket (default: 4)
+     * @param loadFactor the target load factor between 0.0 and 1.0 (default: 0.95)
+     * @param maxKicks the maximum number of cuckoo kicks when inserting (default: 500)
+     * @param hashFunction the hash function for fingerprinting and indexing (default: MurmurHash3)
+     * @param storage the underlying storage for fingerprints
+     */
+    constructor(
+        funnel: Funnel<T>,
+        fingerprintSize: Int = DEFAULT_FINGERPRINT_SIZE,
+        bucketSize: Int = DEFAULT_BUCKET_SIZE,
+        loadFactor: Float = DEFAULT_LOAD_FACTOR,
+        maxKicks: Int = DEFAULT_MAX_KICKS,
+        hashFunction: HashFunction = DEFAULT_HASHER,
+        storage: ByteArray,
+    ) : this(
+        funnel,
+        bucketSize,
+        loadFactor,
+        maxKicks,
+        hashFunction,
+        WordArray(storage, fingerprintSize),
+    )
+
     init {
         require(storage.size % bucketSize == 0) {
             "Storage size ${storage.size} is not divisible by bucket size $bucketSize"
