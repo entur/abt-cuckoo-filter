@@ -5,6 +5,17 @@ plugins {
     id("org.jreleaser") version "1.23.0"
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -16,10 +27,6 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-
-kotlin {
-    jvmToolchain(8)
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
@@ -86,7 +93,7 @@ publishing {
 jreleaser {
     signing {
         active.set(org.jreleaser.model.Active.ALWAYS)
-        armored.set(true)
+        armored = true
     }
     deploy {
         maven {
