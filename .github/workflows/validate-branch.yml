@@ -15,4 +15,4 @@ jobs:
       contents: read
     # no secrets necessary
     with:
-      java-version: 8
+      java-version: 25
