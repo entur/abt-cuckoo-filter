@@ -8,8 +8,6 @@ on:
 
 jobs:
   auto-merge:
-    # Only process Dependabot PRs in this repository. The repository check
-    # prevents the workflow from running with write permissions on forks.
     if: >
       github.event.pull_request.user.login == 'dependabot[bot]' &&
       github.repository == 'entur/abt-cuckoo-filter'
