@@ -1,8 +1,8 @@
 plugins {
-    kotlin("jvm") version "2.2.21"
+    kotlin("jvm") version "2.3.21"
     id("java-library")
     id("maven-publish")
-    id("org.jreleaser") version "1.23.0"
+    id("org.jreleaser") version "1.24.0"
 }
 
 java {
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.guava:guava:33.5.0-jre")
+    implementation("com.google.guava:guava:33.6.0-jre")
     testImplementation(kotlin("test"))
 }
 
