@@ -1,4 +1,3 @@
-// Hint for the CodeQL autobuilder: sourceCompatibility = 25
 plugins {
     kotlin("jvm") version "2.4.0"
     id("java-library")
