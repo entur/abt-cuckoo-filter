@@ -23,6 +23,7 @@ jobs:
       pull-requests: write
       security-events: write
       issues: write
+      packages: read
     with:
       use_setup_java: true
       java_version: "25"
