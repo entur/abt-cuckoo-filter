@@ -1,0 +1,19 @@
+name: Scheduled Workflow Tasks Test
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 04 * * 1-5'
+      timezone: "Europe/Oslo"
+
+jobs:
+  check-last-workflow-run-test:
+    uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-gradle.yml@reduceMavenReleases
+    with:
+      workflow: publish-release.yml
+      release-branch: main
+      trigger-release: false
+      channel-id: ${{ vars.ALERT_CHANNEL_ID }}
+    secrets: inherit
+    permissions:
+      contents: read
+      actions: write
