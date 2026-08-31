@@ -15,7 +15,8 @@ on:
 jobs:
   code-scan:
     name: CodeQL Scan
-    uses: entur/gha-security/.github/workflows/code-scan.yml@v2
+    # TODO change to enturs flow again
+    uses: skjolber/gha-security/.github/workflows/code-scan.yml@skjolber-patch-1
     # no secrets necessary
     permissions: # some of these only apply when running on the main branch
       actions: read
@@ -23,6 +24,7 @@ jobs:
       pull-requests: write
       security-events: write
       issues: write
+      packages: read
     with:
       use_setup_java: true
       java_version: "25"
