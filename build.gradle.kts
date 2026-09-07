@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.4.10"
     id("java-library")
     id("maven-publish")
-    id("org.jreleaser") version "1.25.0"
+    id("org.jreleaser") version "1.26.0"
 }
 
 java {
