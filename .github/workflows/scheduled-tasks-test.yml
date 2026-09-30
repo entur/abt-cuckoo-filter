@@ -13,6 +13,7 @@ jobs:
       release-branch: main
       trigger-release: false
       channel-id: ${{ vars.ALERT_CHANNEL_ID }}
+      release-prefix: v
     secrets: inherit
     permissions:
       contents: read
