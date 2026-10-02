@@ -19,6 +19,7 @@ jobs:
     # no secrets necessary
     permissions: # some of these only apply when running on the main branch
       actions: read
+      packages: read
       contents: write
       pull-requests: write
       security-events: write
