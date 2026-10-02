@@ -7,7 +7,7 @@ on:
 
 jobs:
   check-last-workflow-run-test:
-    uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-gradle.yml@reduceMavenReleases
+    uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-gradle.yml@v2
     with:
       workflow: publish-release.yml
       release-branch: main
