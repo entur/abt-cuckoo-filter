@@ -94,6 +94,7 @@ class CuckooFilterTest {
                 TestCase(1000, 4, 0.95f, 264),
                 TestCase(10000, 4, 0.95f, 2632),
                 TestCase(100000, 4, 0.95f, 26316),
+                TestCase(10_000_000, 4, 0.95f, 2_631_579),
             )
 
         for ((maxSize, bucketSize, loadFactor, expectedBucketCount) in testCases) {
@@ -130,6 +131,60 @@ class CuckooFilterTest {
                 WordArray(123, DEFAULT_FINGERPRINT_SIZE),
             )
         }
+    }
+
+    /**
+     * Relocating a kicked fingerprint relies on `index2` being an involution:
+     * `index2(index2(i, fp), fp) == i`, so the alternate bucket of either candidate bucket is the other one.
+     * `floorMod(i xor hash(fp), bucketCount)` only has that property when `bucketCount` is a power of two.
+     * Otherwise, a fingerprint kicked out of its alternate bucket is moved to a third bucket that `contains`
+     * and `remove` never probe. Production capacity 10_000_000 gives bucketCount 2_631_579, which is not a
+     * power of two.
+     */
+    @Test
+    fun testFalseNegativesWithNonPowerOfTwoBucketCount() {
+        val (falseNegatives, removeFailures) = countFalseNegativesAndRemoveFailures(1000)
+
+        // demonstrates bug: every added item SHOULD be contained (expected 0 false negatives)
+        Assertions.assertTrue(falseNegatives > 0, "Expected false negatives, got $falseNegatives")
+        // demonstrates bug: every added item SHOULD be removable (expected 0 remove failures)
+        Assertions.assertTrue(removeFailures > 0, "Expected remove failures, got $removeFailures")
+    }
+
+    @Test
+    fun testNoFalseNegativesWithPowerOfTwoBucketCount() {
+        val (falseNegatives, removeFailures) = countFalseNegativesAndRemoveFailures(1024)
+
+        Assertions.assertEquals(0, falseNegatives, "Unexpected false negatives")
+        Assertions.assertEquals(0, removeFailures, "Unexpected remove failures")
+    }
+
+    /**
+     * Fills a filter with [bucketCount] buckets to [fillRatio] of its capacity and returns the number of added
+     * items that are not contained, followed by the number of added items that could not be removed.
+     */
+    private fun countFalseNegativesAndRemoveFailures(
+        bucketCount: Int,
+        fillRatio: Double = 0.9,
+    ): Pair<Int, Int> {
+        val cuckooFilter =
+            CuckooFilter(
+                Funnels.byteArrayFunnel(),
+                DEFAULT_BUCKET_SIZE,
+                DEFAULT_LOAD_FACTOR,
+                DEFAULT_MAX_KICKS,
+                DEFAULT_HASHER,
+                WordArray(bucketCount * DEFAULT_BUCKET_SIZE, DEFAULT_FINGERPRINT_SIZE),
+            )
+        val ids = createIds((cuckooFilter.capacity * fillRatio).toInt(), VALID_IDS_SEED)
+
+        // A failed add drops a kicked fingerprint, which is a legitimate false negative, so stop at the first one
+        val added = ids.takeWhile { cuckooFilter.add(it) }
+        Assertions.assertEquals(ids.size, added.size, "Expected all adds to succeed")
+
+        val falseNegatives = added.count { it !in cuckooFilter }
+        val removeFailures = added.count { !cuckooFilter.remove(it) }
+        return falseNegatives to removeFailures
     }
 
     private fun createIds(
