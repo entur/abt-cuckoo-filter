@@ -94,6 +94,7 @@ class CuckooFilterTest {
                 TestCase(1000, 4, 0.95f, 264),
                 TestCase(10000, 4, 0.95f, 2632),
                 TestCase(100000, 4, 0.95f, 26316),
+                TestCase(10_000_000, 4, 0.95f, 2_631_579),
             )
 
         for ((maxSize, bucketSize, loadFactor, expectedBucketCount) in testCases) {
@@ -129,6 +130,31 @@ class CuckooFilterTest {
                 DEFAULT_HASHER,
                 WordArray(123, DEFAULT_FINGERPRINT_SIZE),
             )
+        }
+    }
+
+    @Test
+    fun testNoFalseNegativesAfterKicks() {
+        for (bucketCount in listOf(999, 1000, 1024)) {
+            val cuckooFilter =
+                CuckooFilter(
+                    Funnels.byteArrayFunnel(),
+                    DEFAULT_BUCKET_SIZE,
+                    DEFAULT_LOAD_FACTOR,
+                    DEFAULT_MAX_KICKS,
+                    DEFAULT_HASHER,
+                    WordArray(bucketCount * DEFAULT_BUCKET_SIZE, DEFAULT_FINGERPRINT_SIZE),
+                )
+            val ids = createIds((cuckooFilter.capacity * 0.9).toInt(), VALID_IDS_SEED)
+
+            val added = ids.takeWhile { cuckooFilter.add(it) }
+            Assertions.assertEquals(ids.size, added.size, "Expected all adds to succeed for bucketCount=$bucketCount")
+
+            val falseNegatives = added.count { it !in cuckooFilter }
+            val removeFailures = added.count { !cuckooFilter.remove(it) }
+
+            Assertions.assertEquals(0, falseNegatives, "Unexpected false negatives for bucketCount=$bucketCount")
+            Assertions.assertEquals(0, removeFailures, "Unexpected remove failures for bucketCount=$bucketCount")
         }
     }
 
