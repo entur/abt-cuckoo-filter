@@ -229,8 +229,8 @@ class CuckooFilter<T>(
         i1: Int,
         fp: Int,
     ): Int {
-        val h = hashFunction.hashInt(fp).asInt()
-        return Math.floorMod(i1 xor h, bucketCount)
+        val h = Math.floorMod(hashFunction.hashInt(fp).asInt(), bucketCount)
+        return Math.floorMod(h - i1, bucketCount)
     }
 
     private fun bucketOffset(bucket: Int): Int = bucket * bucketSize
